@@ -1,4 +1,4 @@
 User-agent: *
 Disallow:
 
-Sitemap: http://patchon.github.io/ensamiasien.se/sitemap.xml
+Sitemap: http://www.ensamiasien.se//sitemap.xml
