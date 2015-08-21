@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://www.ensamiasien.se//blog/2015/08/18/kota-kinabalu/</loc>
+    <lastmod>2015-08-18T03:03:41+02:00</lastmod>
+  </url>
+  <url>
     <loc>http://www.ensamiasien.se//blog/2015/08/12/sukau/</loc>
     <lastmod>2015-08-12T09:15:12+02:00</lastmod>
   </url>
@@ -111,5 +115,17 @@
   </url>
   <url>
     <loc>http://www.ensamiasien.se//blog/categories/kingfish/</loc>
+  </url>
+  <url>
+    <loc>http://www.ensamiasien.se//blog/categories/kota-kinabalu/</loc>
+  </url>
+  <url>
+    <loc>http://www.ensamiasien.se//blog/categories/kudat/</loc>
+  </url>
+  <url>
+    <loc>http://www.ensamiasien.se//blog/categories/tampat-do-aman/</loc>
+  </url>
+  <url>
+    <loc>http://www.ensamiasien.se//blog/categories/manana/</loc>
   </url>
 </urlset>
