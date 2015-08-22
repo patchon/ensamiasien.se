@@ -82,19 +82,22 @@ festival that just happened to take place during the nights we were &hellip;" />
 
 <!-- Custom Scripts -->
 <script language="Javascript" type="text/javascript">
-    $(document).ready(function() {
-      // Disable fancybox for mobile-devices
-      if( navigator.userAgent.match(/Android/i) ||
-          navigator.userAgent.match(/webOS/i)   ||
-          navigator.userAgent.match(/iPhone/i)  ||
-          navigator.userAgent.match(/iPod/i)    ||
-          navigator.userAgent.match(/BlackBerry/)
-       ){
-          return false;
-       }
-          jQuery(".fancybox").fancybox({
-            padding : '0',
-          });
+
+  $(document).ready(function() {
+
+    // Disable fancybox for mobile-devices
+    if( navigator.userAgent.match(/Android/i) ||
+        navigator.userAgent.match(/webOS/i)   ||
+        navigator.userAgent.match(/iPhone/i)  ||
+        navigator.userAgent.match(/iPod/i)    ||
+        navigator.userAgent.match(/BlackBerry/)){
+       return false;
+     }
+
+     jQuery(".fancybox").fancybox({
+       padding : '0',
+     });
+
     });
 </script>
 
