@@ -84,23 +84,20 @@ Borneo is full of nice beaches &hellip;" />
 
 <!-- Custom Scripts -->
 <script language="Javascript" type="text/javascript">
-    // ender.js gobbles jQuery's ready event: Use ender.js $ instead
     $(document).ready(function() {
-
-      jQuery(".fancybox").click(function() {
-        if($('#mobile').is(':visible')) {
-          // do something here
+      // Disable fancybox for mobile-devices
+      if( navigator.userAgent.match(/Android/i) ||
+          navigator.userAgent.match(/webOS/i)   ||
+          navigator.userAgent.match(/iPhone/i)  ||
+          navigator.userAgent.match(/iPod/i)    ||
+          navigator.userAgent.match(/BlackBerry/)
+       ){
           return false;
-        }
-      });
-
-      jQuery(".fancybox").fancybox({
-        padding : '0',
-      });
-
+       }
+          jQuery(".fancybox").fancybox({
+            padding : '0',
+          });
     });
-
-
 </script>
 
   
