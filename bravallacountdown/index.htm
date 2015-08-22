@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Hi there</title>
+
+  <script type="text/javascript" src="js/instafeed.min.js"></script>
+  <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+
+  <style type="text/css">
+
+      ul.images div#instafeed {
+        margin      : 0px;
+        overflow-x  : hidden;
+        padding     : 0px;
+        white-space : nowrap;
+        width       : 100%;
+      }
+
+      ul.images div#instafeed li {
+        display: inline;
+      }
+
+      ul.images div#instafeed li a img {
+        width   : 70px;
+        height  : 70px;
+        /*padding : 1px;*/
+    }
+
+    ul.images {
+      padding-left: 0px;
+    }
+
+
+      ul.images div#instafeed_ugly {
+        margin      : 0px;
+        overflow-x  : hidden;
+        padding     : 0px;
+        white-space : nowrap;
+        width       : 100%;
+      }
+
+      ul.images div#instafeed_ugly li {
+        display: inline;
+      }
+
+      ul.images div#instafeed_ugly li a img {
+        width   : 70px;
+        height  : 70px;
+        /*padding : 1px;*/
+    }
+body { position:relative;}
+
+    #canvas {
+      display: none;
+    }
+  </style>
+
+</head>
+<body>
+
+<div id="top" style="height:77px; border-bottom:solid; border-color:#edeeee;">
+  <center style="padding-top:25px">Time to Bråvalla 2016 : long long long ;)</center>
+</div>
+
+  <div id="main" style="background-color:#fafafa;padding-top:0px;height:82vh;">
+    <br>
+    <strong>#bråvalla2013</strong>
+    <ul class="images">
+      <div id="instafeed"></div>
+    </ul>
+        <span style="float:right">randomize</span>
+
+<!--
+    <ul class="images">
+      <div id="instafeed"></div>
+
+      <div id="below_feed">
+        <span style="float:right">randomize</span>
+      </div>
+    </ul>
+
+    <ul class="images">
+      <div id="instafeed_ugly"></div>
+    </ul>
+-->
+  </div>
+
+    
+
+
+
+<canvas id="canvas"></canvas>
+<script type="text/javascript">
+
+  var width  = $(window).width();
+  var images = Math.floor(width/50);
+      images = 60;
+
+  var feed = new Instafeed({
+      get       : 'tagged',
+      tagName   : 'bråvalla2013',
+      clientId  : 'eb01b1b10b72457ea650f74f756bde4a',
+      sortBy    : 'random',
+      links     : 'true',
+      limit     : images,
+      template: '<li><a href="{{link}}"><img src="{{image}}"/></a></li>',
+
+      filter: function(image) {
+
+        //console.log(image.images.thumbnail.url)
+        var img = new Image();
+
+        img.addEventListener("load", function() {
+
+          // Draw the picture in the canvas element,
+          var context = document.getElementById('canvas').getContext('2d');
+              context.drawImage(img, 0, 0);
+
+          // Get a rectangle 10 pixels wide from top to bottom,
+          var pixels = context.getImageData(0, 0, 10, canvas.height).data;
+              console.log(context);
+
+          // Loop the pixels from the rectangle, if there is to much white we
+          // *could be* dealing with a white frame, simply skip that image.
+          // 500 is value that seems to do what I want, feel free to improve
+          // this part though.
+          var probably_white_border = 0;
+          for (var i = 0, n = pixels.length; i < n; i += 4) {
+            if (pixels[i] > 250){
+              probably_white_border++;
+            }
+          }
+
+          if (probably_white_border > 500){
+            $("#instafeed_ugly").append('<li><a href="'+probably_white_border+'"><img src="'+image.images.thumbnail.url+'" style="border:solid"></a></li>');
+            return false;
+          }
+
+          // If image is validated, append it to the row,
+          $("#instafeed").append('<li><a href="'+image.link+'"><img src="'+image.images.thumbnail.url+'"></a></li>');
+          return true;
+        }, false);
+
+        img.crossOrigin="anonymous";
+        img.src = image.images.thumbnail.url;
+
+        // Since we add the images ourselves, always return false here.
+        return false;
+      },
+  });
+  feed.run();
+</script>
+
+</body>
+</html>
