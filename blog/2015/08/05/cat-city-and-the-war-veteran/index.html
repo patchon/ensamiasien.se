@@ -87,16 +87,17 @@ arrived. We fought the &hellip;" />
     // ender.js gobbles jQuery's ready event: Use ender.js $ instead
     $(document).ready(function() {
 
-      jQuery(".fancybox").fancybox({
-        padding : '0',
-      });
-
       jQuery(".fancybox").click(function() {
         if($('#mobile').is(':visible')) {
           // do something here
           return false;
         }
       });
+
+      jQuery(".fancybox").fancybox({
+        padding : '0',
+      });
+
     });
 
 
