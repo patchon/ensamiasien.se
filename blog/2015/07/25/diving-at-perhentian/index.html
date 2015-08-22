@@ -84,17 +84,19 @@ terrified, seriously, absolutely terrified. I had planned to go diving &hellip;"
 <script language="Javascript" type="text/javascript">
     // ender.js gobbles jQuery's ready event: Use ender.js $ instead
     $(document).ready(function() {
-        jQuery(".fancybox").fancybox({
-          padding : '0',
-        });
+
+      jQuery(".fancybox").fancybox({
+        padding : '0',
+      });
+
+      jQuery(".fancybox").click(function() {
+        if($('#mobile').is(':visible')) {
+          // do something here
+          return false;
+        }
+      });
     });
 
-  $('.fancybox').click(function() {
-    if($('#mobile').is(':visible')) {
-        // do something here
-        return false;
-    }
-  });
 
 </script>
 
