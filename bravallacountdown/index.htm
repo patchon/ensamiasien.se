@@ -3,8 +3,23 @@
 <head>
   <title>Hi there</title>
 
+  <!-- Jquery -->
+  <script src="jquery/jquery-2.1.4.min.js"></script>
+
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="bootstrap/bootstrap-theme.min.css">
+  <script src="bootstrap/bootstrap.min.js"></script>
+
+  <!-- Pongstagr 
+  <link rel="stylesheet" href="pongstagr/pongstagr.am.css">
+  <script src="pongstagr/pongstagr.am.js"></script>
+  -->
+
+
+
   <script type="text/javascript" src="js/instafeed.min.js"></script>
-  <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+  -->
 
   <style type="text/css">
 
@@ -48,7 +63,6 @@
         height  : 70px;
         /*padding : 1px;*/
     }
-body { position:relative;}
 
     #canvas {
       display: none;
@@ -58,7 +72,7 @@ body { position:relative;}
 </head>
 <body>
 
-<div id="top" style="height:77px; border-bottom:solid; border-color:#edeeee;">
+<div id="top" style="height:77px; border-bottom:solid; border-color:#edeeee;border-width:1px">
   <center style="padding-top:25px">Time to Bråvalla 2016 : long long long ;)</center>
 </div>
 
@@ -68,7 +82,10 @@ body { position:relative;}
     <ul class="images">
       <div id="instafeed"></div>
     </ul>
-        <span style="float:right">randomize</span>
+    <br><br><br>
+    <ul class="images">
+      <div id="instafeed_ugly"></div>
+    </ul>
 
 <!--
     <ul class="images">
@@ -79,9 +96,6 @@ body { position:relative;}
       </div>
     </ul>
 
-    <ul class="images">
-      <div id="instafeed_ugly"></div>
-    </ul>
 -->
   </div>
 
@@ -92,63 +106,250 @@ body { position:relative;}
 <canvas id="canvas"></canvas>
 <script type="text/javascript">
 
-  var width  = $(window).width();
-  var images = Math.floor(width/50);
-      images = 60;
+  //var width  = $(window).width();
+  //var images = Math.floor(width/50);
+  //    images = 60;
 
-  var feed = new Instafeed({
-      get       : 'tagged',
-      tagName   : 'bråvalla2013',
-      clientId  : 'eb01b1b10b72457ea650f74f756bde4a',
-      sortBy    : 'random',
-      links     : 'true',
-      limit     : images,
-      template: '<li><a href="{{link}}"><img src="{{image}}"/></a></li>',
+  // set interval
+//  var interval = setInterval(refresh_images, 10000);
+//
+//  function refresh_images() {
+//    var viewport_width = '0';
+//    var image_left    = '1';
+//
+//    while ( image_left > viewport_width ){
+//      // Get the actual viewport,
+//      viewport_width = $(window).width();
+//
+//      // Get a random picture,
+//      item = $('#instafeed li')[Math.floor(Math.random()*$('#instafeed li').length)];
+//
+//      // Get the position,
+//      image_left = $(item).position().left;
+//      console.log(image_left + "vs" + viewport_width);
+//    }
+//
+//    console.log("fetch is being called");
+//    // fetch_image("bråvalla2013", item);
+//
+//    ////("#instafeed_ugly").append('<li><a href="'+probably_white_border+'"><img src="'+image.images.thumbnail.url+'" style="border:solid"></a></li>');
+//  }
 
-      filter: function(image) {
+//  function fetch_image(tag, item){
+//    var afeed = new Instafeed({
+//        get       : 'tagged',
+//        tagName   : tag,
+//        clientId  : 'eb01b1b10b72457ea650f74f756bde4a',
+//        sortBy    : 'random',
+//        links     : 'true',
+//        limit     : '10',
+//        //template: '<li><a href="{{link}}"><img src="{{image}}"/></a></li>',
+//
+//        filter: function(image) {
+//
+//          //console.log(image.images.thumbnail.url)
+//          var img = new Image();
+//
+//          img.addEventListener("load", function() {
+//
+//            // Draw the picture in the canvas element,
+//            var context = document.getElementById('canvas').getContext('2d');
+//                context.drawImage(img, 0, 0);
+//
+//            // Get a rectangle 10 pixels wide from top to bottom,
+//            var pixels = context.getImageData(0, 0, 10, canvas.height).data;
+//                console.log(context);
+//
+//            // Loop the pixels from the rectangle, if there is to much white we
+//            // *could be* dealing with a white frame, simply skip that image.
+//            // 500 is value that seems to do what I want, feel free to improve
+//            // this part though.
+//            var probably_white_border = 0;
+//            for (var i = 0, n = pixels.length; i < n; i += 4) {
+//              if (pixels[i] > 250){
+//                probably_white_border++;
+//              }
+//            }
+//
+//            if (probably_white_border > 500){
+//              //$("#item").append('<li><a href="'+probably_white_border+'"><img src="'+image.images.thumbnail.url+'" style="border:solid"></a></li>');
+//              //fetch_image(tag, item);
+//              return false;
+//            }
+//
+//            // If image is validated, append it to the row,
+//            $(item).html('<li><a href="'+image.link+'"><img src="'+image.images.thumbnail.url+'"></a></li>');
+//            return true;
+//          }, false);
+//
+//          img.crossOrigin="anonymous";
+//          img.src = image.images.thumbnail.url;
+//
+//          // Since we add the images ourselves, always return false here.
+//          return false;
+//        },
+//    });
+//    afeed.run();
+//  }
 
-        //console.log(image.images.thumbnail.url)
-        var img = new Image();
 
-        img.addEventListener("load", function() {
 
-          // Draw the picture in the canvas element,
-          var context = document.getElementById('canvas').getContext('2d');
-              context.drawImage(img, 0, 0);
+  function fetch_images(year) {
 
-          // Get a rectangle 10 pixels wide from top to bottom,
-          var pixels = context.getImageData(0, 0, 10, canvas.height).data;
-              console.log(context);
+    var feed = new Instafeed({
+        get       : 'tagged',
+        tagName   : 'bråvalla'+year,
+        clientId  : 'eb01b1b10b72457ea650f74f756bde4a',
+        sortBy    : 'random',
+        links     : 'true',
+        limit     : '3',
+        mock      : 'true',
 
-          // Loop the pixels from the rectangle, if there is to much white we
-          // *could be* dealing with a white frame, simply skip that image.
-          // 500 is value that seems to do what I want, feel free to improve
-          // this part though.
-          var probably_white_border = 0;
-          for (var i = 0, n = pixels.length; i < n; i += 4) {
-            if (pixels[i] > 250){
-              probably_white_border++;
-            }
+        success   : function(image){
+          console.log(image);
+
+          console.log(image.data);
+
+          //shuffle(image.data);
+
+          for (i = 0; i < image.data.length; i++) {
+          //  console.log("Looping => "+image.data[i].link)
+          //  validate_image(image.data[i]);
+          $("#instafeed").append('<li><a href="'+image.data[i].link+'"><img src="'+image.data[i].images.thumbnail.url+'"></a></li>');
           }
 
-          if (probably_white_border > 500){
-            $("#instafeed_ugly").append('<li><a href="'+probably_white_border+'"><img src="'+image.images.thumbnail.url+'" style="border:solid"></a></li>');
-            return false;
-          }
+          //console.log("Checking length of feed");
 
-          // If image is validated, append it to the row,
-          $("#instafeed").append('<li><a href="'+image.link+'"><img src="'+image.images.thumbnail.url+'"></a></li>');
-          return true;
-        }, false);
+          //// Get images until we have 35 valid ones,
+          //if ($("#instafeed li").length < 36){
+          //  console.log("Total images is less than 35 so getting more...");
+          //  //fetch_images(year);
+          //  feed.next();
+          //}
+        },
+    });
 
-        img.crossOrigin="anonymous";
-        img.src = image.images.thumbnail.url;
+    feed.run();
+  }
 
-        // Since we add the images ourselves, always return false here.
-        return false;
-      },
-  });
-  feed.run();
+function shuffle(array) {
+  var currentIndex = array.length, temporaryValue, randomIndex ;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+}
+
+
+
+  function validate_image(image){
+
+    console.log(image.images.thumbnail.url)
+
+    // Create new image,
+    var img = new Image();
+
+    // Add the eventlistener so we can paint the canvas when the image is ready,
+    img.addEventListener("load", function() {
+
+    // Draw the picture in the canvas element,
+    var context = document.getElementById('canvas').getContext('2d');
+        context.drawImage(img, 0, 0);
+
+    // Get a rectangle 10 pixels wide from top to bottom,
+    var pixels = context.getImageData(0, 0, 10, canvas.height).data;
+
+    // Loop the pixels from the rectangle, if there is to much white we
+    // *could be* dealing with a white frame, simply skip that image.
+    // 500 is value that seems to do what I want, feel free to improve
+    // this part though.
+    var probably_white_border = 0;
+    for (var i = 0, n = pixels.length; i < n; i += 4) {
+      if (pixels[i] > 250){
+        probably_white_border++;
+      }
+    }
+
+    if (probably_white_border > 500){
+      console.log("invalidating pic");
+      $("#instafeed_ugly").append('<li><a href="'+probably_white_border+'"><img src="'+image.images.thumbnail.url+'" style="border:solid"></a></li>');
+      return;
+    }
+
+    // Image is "all good", lets add it,
+    add_image_to_row(image);
+
+  }, false);
+
+  img.crossOrigin="anonymous";
+  img.src = image.images.thumbnail.url;
+}
+
+
+function add_image_to_row (image){
+  $("#instafeed").append('<li><a href="'+image.link+'"><img src="'+image.images.thumbnail.url+'"></a></li>');
+}
+
+
+$( document ).ready(function() {
+  fetch_images("2015");
+});
+        //template: '<li><a href="{{link}}"><img src="{{image}}"/></a></li>',
+
+        // filter: function(image) {
+
+        //   //console.log(image.images.thumbnail.url)
+        //   var img = new Image();
+
+        //   img.addEventListener("load", function() {
+
+        //     // Draw the picture in the canvas element,
+        //     var context = document.getElementById('canvas').getContext('2d');
+        //         context.drawImage(img, 0, 0);
+
+        //     // Get a rectangle 10 pixels wide from top to bottom,
+        //     var pixels = context.getImageData(0, 0, 10, canvas.height).data;
+        //         console.log(context);
+
+        //     // Loop the pixels from the rectangle, if there is to much white we
+        //     // *could be* dealing with a white frame, simply skip that image.
+        //     // 500 is value that seems to do what I want, feel free to improve
+        //     // this part though.
+        //     var probably_white_border = 0;
+        //     for (var i = 0, n = pixels.length; i < n; i += 4) {
+        //       if (pixels[i] > 250){
+        //         probably_white_border++;
+        //       }
+        //     }
+
+        //     if (probably_white_border > 500){
+        //       $("#instafeed_ugly").append('<li><a href="'+probably_white_border+'"><img src="'+image.images.thumbnail.url+'" style="border:solid"></a></li>');
+        //       return false;
+        //     }
+
+        //     // If image is validated, append it to the row,
+        //     $("#instafeed").append('<li><a href="'+image.link+'"><img src="'+image.images.thumbnail.url+'"></a></li>');
+        //     return true;
+        //   }, false);
+
+        //   img.crossOrigin="anonymous";
+        //   img.src = image.images.thumbnail.url;
+
+        //   // Since we add the images ourselves, always return false here.
+        //   return false;
+        // },
+
 </script>
 
 </body>

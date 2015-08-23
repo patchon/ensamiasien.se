@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>WOOOOOOOOOOOOOOOO</title>
+
+  <link rel="stylesheet" href="bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="bootstrap/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="pongstagr/pongstagr.am.css">
+
+  <!-- Jquery -->
+  <script src="jquery/jquery-2.1.4.min.js"></script>
+
+  <!-- Bootstrap -->
+  <script src="bootstrap/bootstrap.min.js"></script>
+
+  <!-- Pongstagr -->
+  <script src="pongstagr/pongstagr.am.js"></script>
+
+</head>
+<body>
+
+<div id="top" style="height:77px; border-bottom:solid; border-color:#edeeee;border-width:1px">
+  <center style="padding-top:25px">Time to Bråvalla 2016 : long long long ;)</center>
+</div>
+<center>
+  <div id="main" style="background-color:#fafafa;padding-top:0px;height:82vh;">
+  </div>
+</center>
+
+  <style type="text/css">
+  
+  </style>
+
+
+<script>
+  $(document).ready(function () {
+
+    $('#main').pongstgrm({
+      accessId:     '2050237554',
+      accessToken:  '2050237554.eb01b1b.fd1adb01cfad47649dba2893c4473f48',
+      show       :  'bråvalla2013',
+      count:       20,              // number:  default number of media to be displayed
+      timestamp:   true,             // boolean: show/hide media timestamp
+
+      // plugin components
+      btn_like:         false,      // boolean: show/hide like button
+      btn_mute:         false,      // boolean: show/hide mute button (for video)
+      btn_comment:      false,      // boolean: show/hide comment field
+      profile_bg_img:   null,      // string:  valid image uri
+      profile_picture:  64,        // number:  profile picture dimensions in square format e.g., (128 == 128x128 pixels)
+     profile_bg_color: '#d9534f', // string:  hex value of profile's background-color
+    });
+
+  });
+
+
+</script>
+
+
+</body>
+</html>

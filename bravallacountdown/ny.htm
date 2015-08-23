@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Bråvalla Countdown - Nedräkningen har börjat</title>
+
+  <link rel="stylesheet" href="pongstagr/pongstagr.am.css">
+
+  <!-- Jquery -->
+  <script src="jquery/jquery-2.1.4.min.js"></script>
+
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="bootstrap/bootstrap-theme.min.css">
+  <script src="bootstrap/bootstrap.min.js"></script>
+
+  <script type="text/javascript" src="instafeed/instafeed.js"></script>
+  <style type="text/css">
+  </style>
+
+</head>
+<body>
+
+<div id="top" style="height:77px; border-bottom:solid; border-color:#edeeee;border-width:1px">
+  <center style="padding-top:25px">Time to Bråvalla 2016 : long long long ;)</center>
+</div>
+
+    <div class="container">
+        <div class="row" id="instafeed"></div>
+    </div>
+
+    <br><br><br>
+    <strong> Invalidated Pictures</strong>
+    <div id="instafeed_ugly"></div>
+
+  <canvas id="canvas" style="display:none"></canvas>
+
+
+<script type="text/javascript">
+ var years_done = 0 ;
+
+ for (i = 0; i < 80; i++) {
+
+  var _thumbnail  = '<div class="col-xs-12 col-sm-2 col-md-2 col-lg-2">'
+      _thumbnail += ' <div class="thumbnail text-center scaling">'
+      _thumbnail += '<strong id="caption_'+i+'">foodate</strong>'
+      _thumbnail += '   <div class="spinner" id="spinner_'+i+'"/>'
+      _thumbnail += '   <a href="#" id="link_'+i+'" target="_blanl">'
+      _thumbnail += '     <img id="thumb_'+i+'" src="#" class="fade" style="display:none;width:90%">'
+      _thumbnail += '   </a>'
+      _thumbnail += ' </div>'
+      _thumbnail += '</div>'
+      _thumbnail += '</div>'
+
+    $("#instafeed").append(_thumbnail);
+  }
+images_valid    = 0;
+images_invalid  = 0;
+total_images    = 0;
+first_run       = 1;
+
+  fetch_images_from_insta("bråvalla2013")
+  fetch_images_from_insta("bråvalla2014")
+  fetch_images_from_insta("bråvalla2015")
+  fetch_images_from_insta("bråvalla")
+
+
+function fill_broken_images(feed){
+  if (get_empty_slot() > 0){
+  //   setTimeout(function(){
+       var favailable_slots = $(".spinner:visible");
+       console.log("Ok got empty slots, trying to get more pics "+favailable_slots.length);
+       feed.next();
+   //  }, 1500);
+  }
+}
+
+
+function still_empty_slots(){
+  var slots = $(".spinner");
+
+  for (i=0; i < slots.length; i++){
+    if ($(slots[i]).is(":visible")){
+      return 1;
+    }
+  }
+  return 0;
+}
+
+
+function get_empty_slot(){
+
+  var available_slots = $(".spinner:visible");
+  if (available_slots.length > 0){
+    var rand = Math.floor((Math.random() * available_slots.length));
+    return $(available_slots[rand]).attr("id").replace("spinner_","");
+  }
+
+  return 0;
+}
+
+
+function add_image_to_row (image){
+  var newtime = new Date(image.created_time * 1000)
+  var created = newtime.toDateString()
+  var slot_num = get_empty_slot();
+
+  var slots = $(".spinner");
+  for (var i = 0; i < slots.length; i++) {
+    var url = $("#link_"+i).attr("href");
+    if (image.link == url){
+      console.log("Not adding image, image already added.");
+      return;
+    }
+  }
+
+  if ($("#thumb_"+slot_num).attr("src") == "#"){
+    $("#caption_"+slot_num).text(created);
+    $("#thumb_"+slot_num).attr("src", image.images.thumbnail.url);
+    $("#thumb_"+slot_num).show();
+    $("#spinner_"+slot_num).hide();
+    $("#link_"+slot_num).attr("href", image.link);
+    return;
+  }
+
+  console.log("Not adding image to already filled slot");
+}
+
+
+function validate_image(image, feed){
+
+    console.log("Validating image => "+image.images.thumbnail.url);
+
+    // Create new image,
+    var img = new Image();
+
+    // Add the eventlistener so we can paint the canvas when the image is ready,
+    img.addEventListener("load", function() {
+
+    // Draw the picture in the canvas element,
+    var context = document.getElementById('canvas').getContext('2d');
+        context.drawImage(img, 0, 0);
+
+    // Get a rectangle 10 pixels wide from top to bottom, and from top left to right,
+    var pixels_left_to_bottom = context.getImageData(0, 0, 10, canvas.height).data;
+    var pixels_top_to_right   = context.getImageData(0, 0, canvas.width, 10).data;
+
+    // Loop the pixels from the rectangles, if there is to much white we
+    // *could be* dealing with a white frame, simply skip that image.
+    // 500 is value that seems to do what I want, feel free to improve
+    // this part though.
+    var probably_white_border = 0;
+    for (var i = 0, n = pixels_left_to_bottom.length; i < n; i += 4) {
+      if (pixels_left_to_bottom[i] > 250){
+        probably_white_border++;
+      }
+    }
+
+    for (var i = 0, n = pixels_top_to_right.length; i < n; i += 4) {
+      if (pixels_top_to_right[i] > 250){
+        probably_white_border++;
+      }
+    }
+
+    if (probably_white_border > 1000){
+      console.log("Invalidating pic");
+      $("#instafeed_ugly").append('<a href="'+probably_white_border+'"><img src="'+image.images.thumbnail.url+'" style="border:solid"></a>');
+      images_invalid++;
+    }else{
+      // Image is "all good", lets add it,
+      console.log("Picture validated, adding it");
+      add_image_to_row(image);
+      images_valid++;
+    }
+
+    total_images = images_valid + images_invalid;
+    console.log(total_images);
+
+    if (total_images === 80 && first_run === 1){
+      images_valid   = 0;
+      images_invalid = 0;
+      first_run      = 0;
+      fill_broken_images(feed);
+    }else if (total_images === 20){
+      images_valid   = 0;
+      images_invalid = 0;
+      fill_broken_images(feed);
+    }
+
+  }, false);
+
+  img.crossOrigin="anonymous";
+  img.src = image.images.thumbnail.url;
+}
+
+
+
+  function fetch_images_from_insta(tag){
+    var feed = new Instafeed({
+          get       : 'tagged',
+          tagName   : tag,
+          clientId  : 'eb01b1b10b72457ea650f74f756bde4a',
+          mock      : 'true',
+          limit     : '20',
+
+          success   : function(insta_data) {
+
+            var image_data = insta_data.data;
+
+            for (i=0; i < image_data.length; i++) {
+              console.log("In main loop for instadata "+i);
+              validate_image(image_data[i],feed);
+            }
+          },
+
+          after: function() {
+            //years_done++;
+            //console.log("Running after function for "+tag+" (years_done => "+years_done+")");
+            //fill_broken_images(feed);
+          },
+
+      });
+    feed.run();
+    }
+
+
+// bind the load more button
+//loadButton.addEventListener('click', function() {
+//  feed.next();
+//});
+
+
+  //var feed = new Instafeed({
+  //      get       : 'tagged',
+  //      tagName   : 'bråvalla2013',
+  //      clientId  : 'eb01b1b10b72457ea650f74f756bde4a',
+  //      sortBy    : 'random',
+  //      links     : 'true',
+  //      limit     : '60',
+  //      template: '<a href="{{link}}" class="col-xs-12 col-sm-2 col-md-2 col-lg-2"><img src="{{image}}" /></a>'
+  //  });
+
+//feed.run();
+
+</script>
+
+</body>
+</html>
