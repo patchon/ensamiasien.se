@@ -30,9 +30,9 @@
     };
 
     Instafeed.prototype.next = function() {
-      if (!this.hasNext()) {
-        return false;
-      }
+       if (!this.hasNext()) {
+         return false;
+       }
       return this.run(this.context.nextUrl);
     };
 
