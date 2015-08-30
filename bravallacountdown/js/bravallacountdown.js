@@ -2,9 +2,8 @@
 // "Main"
 
 // Global variables,
-var g_grid_size       = 120;
+var g_grid_size       = 200;
 var g_tags_to_fetch   = ["bråvalla2013", "bråvalla2014", "bråvalla2015", "bråvalla"].sort(function() { return 0.5 - Math.random() });
-var g_total_images    = 0;
 var g_verbose         = 1;
 
 var g_slots_all     = new Array();                          // To store the numbers representing the all slots,
@@ -155,13 +154,16 @@ function fetch_images_from_insta(tag){
         tagName   : tag,                                  // The actual tag to get,
         clientId  : 'eb01b1b10b72457ea650f74f756bde4a',   // The instadeveloper client id,
         mock      : 'true',                               // Don't automatically inject received pictures into the dom,
-        limit     : g_grid_size / g_tags_to_fetch.length, // Fetch equally amount of images for each tag,
+        limit     : g_slots_per_tag,                      // Fetch equally amount of images for each tag,
         sortBy    : 'random',                             // Sort the results randomly
 
         // Define custom function for when the instafeed success
         success   : function(instafeed_return) {
+          console.log("Instafeed data return length"+instafeed_return.data.length);
+          var total_images = 0;
           for (image = 0; image < instafeed_return.data.length; image++) {
-            validate_image(instafeed_return.data[image],feed);
+            total_images++;
+            validate_image(instafeed_return.data[image],feed,instafeed_return.data.length,total_images);
           }
         },
 
@@ -281,6 +283,10 @@ function add_invalidated_image(image_data, feed, reason){
       // Update dom,
       $('#images_invalid_'+feed.options.tagName).html(img_invalid_str);
       $('#images_invalid_'+feed.options.tagName).append(copy);
+
+  //    for (var tag in g_slots_for_tag){
+  //     console.log("Tag "+tag+" has "+g_slots_for_tag[tag]+" slots left.");
+  //    }
   }
 }
 
@@ -292,7 +298,7 @@ function add_invalidated_image(image_data, feed, reason){
 // Arguments : instaafeed image data object, instafeed object
 // Returns   : Doesn't really return in that sense.
 //
-function validate_image(image_data, feed){
+function validate_image(image_data, feed, feed_length, total_images){
 
     // Create new image,
     var img = new Image();
@@ -300,7 +306,7 @@ function validate_image(image_data, feed){
     // Add the eventlistener so we can paint the canvas when the image is ready,
     img.addEventListener("load", function() {
 
-      g_total_images++;
+      //total_images++;
 
       // Hack to get only get images tagged with a specific year.
       var year = feed.options.tagName.match(/\d+$/);
@@ -319,9 +325,10 @@ function validate_image(image_data, feed){
 
           // If it's the last image of the feed, check so we have filled all
           // slots if not, we try to get more,
-          if (g_total_images === g_slots_per_tag){
+          console.log("Before if tag (date) "+feed.options.tagName+", total images "+total_images+" feed_length "+feed_length);
+          if (total_images === feed_length){
             logger("Last image in feed reached, checking if we need more images (year-validation) for tag "+feed.options.tagName);
-            g_total_images = 0;
+            total_images = 0;
             fill_empty_slots(feed);
             return;
           }
@@ -366,11 +373,11 @@ function validate_image(image_data, feed){
 
       // If it's the last image of the feed, check so we have filled all slots,
       // if not, we try to get more,
-      logger("FFFFFFFFF tag "+feed.options.tagName+" "+g_total_images);
-      if (g_total_images === g_slots_per_tag){
+      console.log("Before if tag "+feed.options.tagName+", total images "+total_images+" feed_length "+feed_length);
+      if (total_images === feed_length){
         logger("Last image in feed reached, checking if we need more images (frame-validation) for tag "+feed.options.tagName);
         //logger("Last image in feed reached, checking if we need more images.");
-        g_total_images = 0;
+        total_images = 0;
         fill_empty_slots(feed);
       }
     }, false);
