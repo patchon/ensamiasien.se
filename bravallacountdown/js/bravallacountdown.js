@@ -2,35 +2,35 @@
 // "Main"
 
 // Global variables,
-var g_grid_size       = 200;
+var g_grid_size       = 40;
 var g_tags_to_fetch   = ["bråvalla2013", "bråvalla2014", "bråvalla2015", "bråvalla"].sort(function() { return 0.5 - Math.random() });
-var g_verbose         = 1;
+var g_verbose         = 0;
 
 var g_slots_all     = new Array();                          // To store the numbers representing the all slots,
 var g_slots_for_tag = new Array();                          // To store the arrays containing the slots for each tag
 var g_slots_per_tag = g_grid_size / g_tags_to_fetch.length; // To store the amount of slots per tag
-
-
 var g_images_invalid = {};
 
-// Initialize the grid,
-initialize_grid(g_grid_size);
 
-// Randomize the slots,
-g_slots_all.sort(function() { return 0.5 - Math.random() });
+function setup_page(){
+  // Initialize the grid,
+  initialize_grid(g_grid_size);
 
-// Assign the slots to the different tags,
-assign_slots_to_tags();
+  // Randomize the slots,
+  g_slots_all.sort(function() { return 0.5 - Math.random() });
 
-// Add the invalid images header (for debugging),
-add_invalid_images_header();
+  // Assign the slots to the different tags,
+  assign_slots_to_tags();
 
-// Get the images from insta,
-fetch_images_from_insta("bråvalla2013");
-fetch_images_from_insta("bråvalla2014");
-fetch_images_from_insta("bråvalla2015");
-fetch_images_from_insta("bråvalla");
+  // Add the invalid images header (for debugging),
+  add_invalid_images_header();
 
+  // Get the images from insta,
+  fetch_images_from_insta("bråvalla2013");
+  fetch_images_from_insta("bråvalla2014");
+  fetch_images_from_insta("bråvalla2015");
+  fetch_images_from_insta("bråvalla");
+}
 
 
 //console.log('%c red text, %c green bg', 'color: red', 'background: green' ); %c
@@ -160,10 +160,10 @@ function fetch_images_from_insta(tag){
         // Define custom function for when the instafeed success
         success   : function(instafeed_return) {
           console.log("Instafeed data return length"+instafeed_return.data.length);
-          var total_images = 0;
+          //var total_images = 0;
           for (image = 0; image < instafeed_return.data.length; image++) {
-            total_images++;
-            validate_image(instafeed_return.data[image],feed,instafeed_return.data.length,total_images);
+            //total_images++;
+            validate_image(instafeed_return.data[image],feed,instafeed_return.data.length,image);
           }
         },
 
@@ -326,9 +326,9 @@ function validate_image(image_data, feed, feed_length, total_images){
           // If it's the last image of the feed, check so we have filled all
           // slots if not, we try to get more,
           console.log("Before if tag (date) "+feed.options.tagName+", total images "+total_images+" feed_length "+feed_length);
-          if (total_images === feed_length){
+          if (total_images === feed_length-1){
             logger("Last image in feed reached, checking if we need more images (year-validation) for tag "+feed.options.tagName);
-            total_images = 0;
+            //total_images = 0;
             fill_empty_slots(feed);
             return;
           }
@@ -374,10 +374,10 @@ function validate_image(image_data, feed, feed_length, total_images){
       // If it's the last image of the feed, check so we have filled all slots,
       // if not, we try to get more,
       console.log("Before if tag "+feed.options.tagName+", total images "+total_images+" feed_length "+feed_length);
-      if (total_images === feed_length){
+      if (total_images === feed_length-1){
         logger("Last image in feed reached, checking if we need more images (frame-validation) for tag "+feed.options.tagName);
         //logger("Last image in feed reached, checking if we need more images.");
-        total_images = 0;
+        //total_images = 0;
         fill_empty_slots(feed);
       }
     }, false);
