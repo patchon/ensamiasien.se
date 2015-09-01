@@ -1,0 +1,146 @@
+*{
+  box-sizing: border-box;
+}
+
+body{
+  color       : #444135;
+  font        : 1em/1.5 sans-serif;
+  margin      : 0;
+  padding-top : 450px;
+}
+
+p{
+  margin-bottom: 24px;
+}
+
+
+/* *
+ *
+ * Head banner and menu
+ *
+ * */
+
+header, .main-nav {
+  text-align: center;
+}
+
+header {
+  height        : 500px;
+  padding-top   : 50px;
+}
+
+.main {
+  background    : #f2f2e8;
+  padding       : 110px 50px 50px;
+}
+
+.main-nav a {
+  color            : #444135;
+  font-size        : .9em;
+  font-weight      : bold;
+  text-decoration  : none;
+  text-transform   : uppercase;
+  display          : inline-block;
+  margin           : 14px 32px;
+}
+
+.main-nav a:hover {
+   border-bottom: 2px solid #f07057;
+}
+
+.main-nav,
+.main{
+  position: relative;
+}
+
+.main-nav{
+  background  : #fff;
+  box-shadow  : 0 2px 3px rgba(0,0,0,.4);
+  height      : 50px;
+  z-index     : 150;
+}
+
+header,
+.main-nav-scrolled {
+  position  : fixed;
+  width     : 100%;
+  top       : 0;
+}
+
+#slideshow > div {
+    top       : 0px;
+    position  : absolute;
+}
+
+
+/* *
+ *
+ * Countdown,
+ *
+ * */
+
+#counter-box {
+  left      : 50%;
+  position  : absolute;
+  z-index   :1000;
+}
+
+#counter-box-center {
+  border    : dotted red 1px;
+  color     : white;
+  left      : -50%;
+  position  : relative;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// All commented shit,
+/*
+#slideshow {
+    margin: 50px auto;
+    position: absolute;
+    left:0px;
+    right:0px;
+    width: 240px;
+    height: 240px;
+    padding: 10px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.4);
+}
+
+ #slideshow > div {
+     top: 0px;
+     //bottom: 0px;
+     //left: 0px;
+     position: absolute;
+     //right: 0px;
+ }
