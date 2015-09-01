@@ -133,7 +133,7 @@ function assign_slots_to_tags() {
       if (typeof g_slots_all[slot] == "undefined") slot = 0;
 
       // Push the actual slot number onto the array,
-      console.log("Assigning slot '"+g_slots_all[slot]+"' into \"tagarray '"+g_tags_to_fetch[tag]+"'\"");
+      logger("Assigning slot '"+g_slots_all[slot]+"' into \"tagarray '"+g_tags_to_fetch[tag]+"'\"");
       g_slots_for_tag[g_tags_to_fetch[tag]].push(g_slots_all[slot]);
 
       // Delete the slot from the original array,
@@ -167,7 +167,7 @@ function fetch_images_from_insta(tag){
 
         // Define custom function for when the instafeed success
         success   : function(instafeed_return) {
-          console.log("Instafeed data return length"+instafeed_return.data.length);
+          logger("Instafeed data return length"+instafeed_return.data.length);
           //var total_images = 0;
           for (image = 0; image < instafeed_return.data.length; image++) {
             //total_images++;
@@ -195,12 +195,12 @@ function fetch_images_from_insta(tag){
 function get_slot_from_tag(tag){
 
   if (g_slots_for_tag[tag].length){
-    console.log("Returning slot "+g_slots_for_tag[tag][0]);
+    logger("Returning slot "+g_slots_for_tag[tag][0]);
     return g_slots_for_tag[tag][0];
   }
 
   // No free slots,
-  console.log("Returning empty (no slots available) for tag '"+tag+"'");
+  logger("Returning empty (no slots available) for tag '"+tag+"'");
   return "--empty--";
 }
 
@@ -305,10 +305,6 @@ function add_invalidated_image(image_data, feed, reason){
       // Update dom,
       $('#images_invalid_'+feed.options.tagName).html(img_invalid_str);
       $('#images_invalid_'+feed.options.tagName).append(copy);
-
-  //    for (var tag in g_slots_for_tag){
-  //     console.log("Tag "+tag+" has "+g_slots_for_tag[tag]+" slots left.");
-  //    }
   }
 }
 
@@ -347,7 +343,7 @@ function validate_image(image_data, feed, feed_length, total_images){
 
           // If it's the last image of the feed, check so we have filled all
           // slots if not, we try to get more,
-          console.log("Before if tag (date) "+feed.options.tagName+", total images "+total_images+" feed_length "+feed_length);
+          logger("Before if tag (date) "+feed.options.tagName+", total images "+total_images+" feed_length "+feed_length);
           if (total_images === feed_length-1){
             logger("Last image in feed reached, checking if we need more images (year-validation) for tag "+feed.options.tagName);
             //total_images = 0;
@@ -395,7 +391,7 @@ function validate_image(image_data, feed, feed_length, total_images){
 
       // If it's the last image of the feed, check so we have filled all slots,
       // if not, we try to get more,
-      console.log("Before if tag "+feed.options.tagName+", total images "+total_images+" feed_length "+feed_length);
+      logger("Before if tag "+feed.options.tagName+", total images "+total_images+" feed_length "+feed_length);
       if (total_images === feed_length-1){
         logger("Last image in feed reached, checking if we need more images (frame-validation) for tag "+feed.options.tagName);
         //logger("Last image in feed reached, checking if we need more images.");
@@ -419,14 +415,13 @@ function validate_image(image_data, feed, feed_length, total_images){
 //
 function fill_empty_slots(feed){
   // If we still have have available slots call feed.next to get more images,
-  console.log("in fill empty slots for tag "+feed.options.tagName);
-  console.log("AAAAAAA"+feed.nextUrl);
+  logger("in fill empty slots for tag "+feed.options.tagName);
   if (get_slot_from_tag(feed.options.tagName) != "--empty--"){
     var free_slots = g_slots_for_tag[feed.options.tagName].length;
-    console.log("Still got "+free_slots+" slots for "+feed.options.tagName);
+    logger("Still got "+free_slots+" slots for "+feed.options.tagName);
     feed.next();
   }else{
-    console.log("NO SLOTS LEFT FOR "+feed.options.tagName);
+    logger("NO SLOTS LEFT FOR "+feed.options.tagName);
   }
 }
 
