@@ -2,7 +2,7 @@
 // "Main"
 
 // Global variables,
-var g_grid_size       = 40;
+var g_grid_size       = 80;
 var g_tags_to_fetch   = ["bråvalla2013", "bråvalla2014", "bråvalla2015", "bråvalla"].sort(function() { return 0.5 - Math.random() });
 var g_verbose         = 0;
 
@@ -11,6 +11,8 @@ var g_slots_for_tag = new Array();                          // To store the arra
 var g_slots_per_tag = g_grid_size / g_tags_to_fetch.length; // To store the amount of slots per tag
 var g_images_invalid = {};
 
+//var g_tags_to_fetch   = ["bråvalla2015"];
+//var g_slots_per_tag = g_grid_size;
 
 function setup_page(){
   // Initialize the grid,
@@ -80,13 +82,19 @@ function initialize_grid(grid_size){
   logger("Constructing a grid of "+grid_size+" thumbnails.");
 
   for (row = 0; row < grid_size; row++) {
-    var thumb  = '<div class="col-xs-12 col-sm-2 col-md-2 col-lg-2">'
+    var thumb  = '<div class="col-xs-12 col-sm-2 col-md-2 col-lg-2 columns">'
         thumb += '  <div class="thumbnail text-center scaling">'
         thumb += '    <strong id="caption_'+row+'"></strong>'
         thumb += '    <div class="spinner" id="spinner_'+row+'"/>'
         thumb += '      <a href="#" id="link_'+row+'" target="_blank">'
         thumb += '        <img id="thumb_'+row+'" src="#" class="fade">'
         thumb += '      </a>'
+        thumb += '      <span>'
+        thumb += '        <i id="likes_'+row+'" class="glyphicon glyphicon-heart likes" "></i>&nbsp; '
+        thumb += '      </span>'
+        thumb += '      <span>'
+        thumb += '        <i id="comments_'+row+'" class="glyphicon glyphicon-comment comments"></i>&nbsp; '
+        thumb += '      </span>'
         thumb += '    </div>'
         thumb += '  </div>'
         thumb += '</div>'
@@ -217,12 +225,26 @@ function add_image_to_grid (image_data,feed,image_created){
     logger('Adding image '+image_data.link+' to slot '+slot_num+' for '+feed.options.tagName);
 
     // Add the relevant image information to the free slot,
-    //$("#caption_"+slot_num).text(image_created);
-    $("#caption_"+slot_num).text(feed.options.tagName);
+    $("#caption_"+slot_num).text(image_created);
+    //$("#caption_"+slot_num).text(feed.options.tagName);
     $("#thumb_"+slot_num).attr("src", image_data.images.thumbnail.url);
     $("#thumb_"+slot_num).show();
     $("#spinner_"+slot_num).hide();
     $("#link_"+slot_num).attr("href", image_data.link);
+
+    if (image_data.comments.count === 0){
+      $('#comments_'+slot_num).hide();
+      $('#comments_'+slot_num).closest('span').css( "margin", "0px" );
+    }else{
+      $('#comments_'+slot_num).after("&nbsp;"+image_data.comments.count);
+    }
+
+    if (image_data.likes.count === 7){
+      $('#likes_'+slot_num).hide();
+      $('#likes_'+slot_num).closest('span').css( "margin", "0px" );
+    }else{
+      $('#likes_'+slot_num).after("&nbsp;"+image_data.likes.count);
+    }
 
     // Delete the slot from the tag,
     g_slots_for_tag[feed.options.tagName].splice(0,1);
