@@ -2,9 +2,9 @@
 // "Main"
 
 // Global variables,
-var g_grid_size       = 80;
+var g_grid_size       = 200;
 var g_tags_to_fetch   = ["bråvalla2013", "bråvalla2014", "bråvalla2015", "bråvalla"].sort(function() { return 0.5 - Math.random() });
-var g_verbose         = 0;
+var g_verbose         = 1;
 
 var g_slots_all     = new Array();                          // To store the numbers representing the all slots,
 var g_slots_for_tag = new Array();                          // To store the arrays containing the slots for each tag
@@ -14,25 +14,39 @@ var g_images_invalid = {};
 //var g_tags_to_fetch   = ["bråvalla2015"];
 //var g_slots_per_tag = g_grid_size;
 
+
+
 function setup_page(){
   // Initialize the grid,
   initialize_grid(g_grid_size);
-
-  // Randomize the slots,
+//
+//  // Randomize the slots,
   g_slots_all.sort(function() { return 0.5 - Math.random() });
-
-  // Assign the slots to the different tags,
+//
+//  // Assign the slots to the different tags,
   assign_slots_to_tags();
-
-  // Add the invalid images header (for debugging),
+//
+//  // Add the invalid images header (for debugging),
   add_invalid_images_header();
-
-  // Get the images from insta,
-  fetch_images_from_insta("bråvalla2013");
-  fetch_images_from_insta("bråvalla2014");
-  fetch_images_from_insta("bråvalla2015");
-  fetch_images_from_insta("bråvalla");
+//
+//  // Get the images from insta,
+for (var tag = 0; tag < g_tags_to_fetch.length; tag++){
+  fetch_images_from_insta(g_tags_to_fetch[tag]);
 }
+//fetch_images_from_insta("bråvalla2013");
+//fetch_images_from_insta("bråvalla2014");
+//fetch_images_from_insta("bråvalla2015");
+//fetch_images_from_insta("bråvalla");
+
+
+}
+
+
+function randomDate(start, end, x) {
+  return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
+}
+
+
 
 
 //console.log('%c red text, %c green bg', 'color: red', 'background: green' ); %c
@@ -55,7 +69,7 @@ function add_invalid_images_header(){
     var instafeed_invalid_div   = '<div id="instafeed_invalid">';
         instafeed_invalid_div  += '</div>';
 
-    $('body').append(instafeed_invalid_div);
+    $('.container').append(instafeed_invalid_div);
     $('#instafeed_invalid').css("padding", "150px 0px 0px 20px");
 
     var instafeed_invalid  = '<span style="font-size:30px; font-weight:bold">';
@@ -154,7 +168,10 @@ function assign_slots_to_tags() {
 // Returns   : Doesn't return in that sense.
 //
 function fetch_images_from_insta(tag){
-  logger("Fetching images from instagram for tag '"+tag+"'");
+  var sort_by_items = ["most-recent", "least-recent", "most-liked", "least-liked","most-commented","least-commented","random"];
+  var sort_by = sort_by_items[Math.floor(Math.random()*sort_by_items.length)];
+
+  logger("Fetching images from instagram for tag '"+tag+"' sorted by '"+sort_by+"'");
 
   // Create the instafeed,
   var feed = new Instafeed({
@@ -162,14 +179,14 @@ function fetch_images_from_insta(tag){
         tagName   : tag,                                  // The actual tag to get,
         clientId  : 'eb01b1b10b72457ea650f74f756bde4a',   // The instadeveloper client id,
         mock      : 'true',                               // Don't automatically inject received pictures into the dom,
-        limit     : g_slots_per_tag,                      // Fetch equally amount of images for each tag,
-        sortBy    : 'random',                             // Sort the results randomly
+   //     limit     : g_slots_per_tag,                      // Fetch equally amount of images for each tag,
+        sortBy    : sort_by,                             // Sort the results randomly
 
         // Define custom function for when the instafeed success
         success   : function(instafeed_return) {
           logger("Instafeed data return length"+instafeed_return.data.length);
           //var total_images = 0;
-          for (image = 0; image < instafeed_return.data.length; image++) {
+          for (var image = 0; image < instafeed_return.data.length; image++) {
             //total_images++;
             validate_image(instafeed_return.data[image],feed,instafeed_return.data.length,image);
           }
@@ -328,29 +345,40 @@ function validate_image(image_data, feed, feed_length, total_images){
 
       // Hack to get only get images tagged with a specific year.
       var year = feed.options.tagName.match(/\d+$/);
-      var newtime = new Date(image_data.created_time * 1000)
-      var image_created = newtime.toDateString()
+      var image_created_epoch = new Date(image_data.created_time * 1000)
+      var image_created = image_created_epoch.toDateString()
       if (year){
+
+        var date_start = randomDate(new Date(year, 01, 01), new Date(year,06,31));
+        console.log("Random date start : "+date_start+" ("+date_start.getTime()+")");
+
+        var random_days = Math.floor(Math.random()*(150-90+1)+90);;
+        console.log("Random days : "+random_days);
+
+        var date_end = new Date(date_start.getTime());
+            date_end.setDate(date_end.getDate() + random_days);
+        console.log("Random date end => "+date_end+" ("+date_end.getTime()+")");
 
         // Create a date object with the date from the image and stringify it,
         logger("Tag "+feed.options.tagName+" contains year '"+year+"'")
 
-        if (image_created.indexOf(year) === -1){
-          var err_str  = "Date "+image_created+" doesn't match the year of the "
-              err_str += "tag ("+feed.options.tagName+")"
-          logger(err_str);
-          add_invalidated_image(image_data,feed,"date")
+          if (image_created_epoch.getTime < date_start.getTime() || image_created_epoch.getTime() > date_end.getTime()){
+        //  if (image_created.indexOf(year) === -1){
+            var err_str  = "Date "+image_created+" it not between the dates '"
+                err_str += date_start+"' and '"+date_end+"'";
+            logger(err_str);
+            add_invalidated_image(image_data,feed,"date")
 
-          // If it's the last image of the feed, check so we have filled all
-          // slots if not, we try to get more,
-          logger("Before if tag (date) "+feed.options.tagName+", total images "+total_images+" feed_length "+feed_length);
-          if (total_images === feed_length-1){
-            logger("Last image in feed reached, checking if we need more images (year-validation) for tag "+feed.options.tagName);
-            //total_images = 0;
-            fill_empty_slots(feed);
+            // If it's the last image of the feed, check so we have filled all
+            // slots if not, we try to get more,
+            logger("Before if tag (date) "+feed.options.tagName+", total images "+total_images+" feed_length "+feed_length);
+            if (total_images === feed_length-1){
+              logger("Last image in feed reached, checking if we need more images (year-validation) for tag "+feed.options.tagName);
+              //total_images = 0;
+              fill_empty_slots(feed);
+              return;
+            }
             return;
-          }
-           return;
         }
       }
 
