@@ -241,7 +241,7 @@ function add_image_to_grid (image_data,feed,image_created){
     $("#thumb_"+slot_num).show();
     $("#spinner_"+slot_num).hide();
     $("#link_"+slot_num).attr("href", image_data.link);
-    console.log("FFFFF"+image_data.images.low_resolution.url);
+    console.log("FFFFF"+image_data.images.standard_resolution.url);
     if (image_data.comments.count === 0){
       $('#comments_'+slot_num).hide();
       $('#comments_'+slot_num).closest('span').css( "margin", "0px" );

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Flex layouts demo with freewall</title>
+
+      <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+      <script type="text/javascript" src="js/masonry.pkgd.min.js"></script>
+      <script type="text/javascript" src="js/imagesloaded.pkgd.min.js"></script>
+
+
+<style type="text/css">
+
+
+body { font-family: sans-serif; }
+
+#container {
+  background: #DDD;
+  max-width: 1000px;
+}
+
+.item {
+  width: 200px;
+  float: left;
+}
+
+.item img {
+  display: block;
+  width: 100%;
+}
+</style>
+</head>
+	<body>
+
+<h1>Masonry + imagesLoaded, iteratively reveal items</h1>
+<div id="container"></div>
+<p><button id="load-images">Load images</button></p>
+
+<script type="text/javascript">
+$( function() {
+
+  var $container = $('#container').masonry({
+    itemSelector: '.item',
+    columnWidth: 200
+  });
+
+  $('#load-images').click( function() {
+    var $items = getItems();
+    $container.masonryImagesReveal( $items );
+  });
+  
+});
+
+$.fn.masonryImagesReveal = function( $items ) {
+  var msnry = this.data('masonry');
+  var itemSelector = msnry.options.itemSelector;
+  // hide by default
+  $items.hide();
+  // append to container
+  this.append( $items );
+  $items.imagesLoaded().progress( function( imgLoad, image ) {
+    // get item
+    // image is imagesLoaded class, not <img>, <img> is image.img
+    var $item = $( image.img ).parents( itemSelector );
+    // un-hide item
+    $item.show();
+    // masonry does its thing
+    msnry.appended( $item );
+  });
+  
+  return this;
+};
+
+function randomInt( min, max ) {
+  return Math.floor( Math.random() * max + min );
+}
+
+
+var insta_url = "https://scontent.cdninstagram.com/hphotos-xfa1/t51.2885-15/s320x320";
+var insta_img = [ "/hphotos-xaf1/t51.2885-15/s320x320/e35/11849812_453925804797923_1037690099_n.jpg",
+"/hphotos-xaf1/t51.2885-15/s320x320/e15/11950732_1045365305481193_1510737660_n.jpg",
+"/hphotos-xaf1/t51.2885-15/s320x320/e15/11856798_1633296190280456_286620066_n.jpg",
+"/hphotos-xfa1/t51.2885-15/s320x320/e35/11850251_1619476061660546_428176707_n.jpg",
+"/hphotos-xpf1/t51.2885-15/s320x320/e15/1389053_485724098192427_1768311517_n.jpg",
+"/hphotos-xaf1/t51.2885-15/s320x320/e15/11242146_1590234334571200_1909937131_n.jpg",
+"/hphotos-xpa1/t51.2885-15/s320x320/e15/1170221_676279242392079_760256620_n.jpg",
+"/hphotos-xfp1/t51.2885-15/s320x320/e15/1515441_378902265608432_2118917037_n.jpg",
+"/hphotos-xfp1/t51.2885-15/s320x320/e15/10727785_736958746352189_1318278458_n.jpg",
+"/hphotos-xpa1/t51.2885-15/s320x320/e15/925919_356791627831892_534027617_n.jpg",
+"/hphotos-xfa1/t51.2885-15/s320x320/e35/11850251_1619476061660546_428176707_n.jpg",
+"/hphotos-xaf1/t51.2885-15/s320x320/e15/11856798_1633296190280456_286620066_n.jpg",
+"/hphotos-xaf1/t51.2885-15/s320x320/e15/11950732_1045365305481193_1510737660_n.jpg",
+"/hphotos-xaf1/t51.2885-15/s320x320/e35/11351988_1494107357571916_887894216_n.jpg",
+"/hphotos-xaf1/t51.2885-15/s320x320/e35/11849812_453925804797923_1037690099_n.jpg",
+"/hphotos-xpf1/t51.2885-15/s320x320/e15/1389053_485724098192427_1768311517_n.jpg",
+"/hphotos-xaf1/t51.2885-15/s320x320/e15/11266372_806418462729095_716945733_n.jpg",
+"/hphotos-xap1/t51.2885-15/s320x320/e15/10843777_1572126753024347_1971721121_n.jpg",
+"/hphotos-xpa1/t51.2885-15/s320x320/e15/10747886_297428043800115_1880902890_n.jpg",
+"/hphotos-xpa1/t51.2885-15/s320x320/e15/925919_356791627831892_534027617_n.jpg",
+"/hphotos-xfa1/t51.2885-15/s320x320/e35/11421974_1464200663885414_1020465509_n.jpg",
+"/hphotos-xfa1/t51.2885-15/s320x320/e35/11850251_1619476061660546_428176707_n.jpg",
+"/hphotos-xaf1/t51.2885-15/s320x320/e15/11856798_1633296190280456_286620066_n.jpg",
+"/hphotos-xaf1/t51.2885-15/s320x320/e35/11849812_453925804797923_1037690099_n.jpg",
+"/hphotos-xat1/t51.2885-15/s320x320/e15/1172968_1442561419304976_495973656_n.jpg",
+"/hphotos-xaf1/t51.2885-15/s320x320/e15/11378812_468092670017278_1191427678_n.jpg",
+"/hphotos-xpa1/t51.2885-15/s320x320/e15/1390172_449455975165135_1258822997_n.jpg",
+"/hphotos-xat1/t51.2885-15/s320x320/e15/10809594_609016985890406_425976908_n.jpg",
+"/hphotos-xpa1/t51.2885-15/s320x320/e15/10729426_712523708840842_678937784_n.jpg",
+"/hphotos-xfp1/t51.2885-15/s320x320/e15/10727785_736958746352189_1318278458_n.jpg", ]
+
+
+
+
+function getItem(i) {
+  console.log("here");
+  var width = randomInt( 150, 400 );
+  var height = randomInt( 150, 250 );
+  var item  = '<div class="item" style="width:'+width+'">'
+      item += '<img src="'+insta_url+insta_img[i]+'"/></div>';
+  return item;
+}
+
+function getItems() {
+  var items = '';
+  for ( var i=0; i < insta_img.length; i++ ) {
+    items += getItem(i);
+  }
+  // return jQuery object
+  return $( items );
+}
+
+</script>
+
