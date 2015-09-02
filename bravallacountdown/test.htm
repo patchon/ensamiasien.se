@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>DO IT, JUST DO IT !!</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width">
+  <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+  <script type="text/javascript" src="js/jquery-ui.min.js"></script>
+
+  <script type="text/javascript" src="js/jquery.collagePlus.js"></script>
+
+</head>
+<style type="text/css">
+* In your CSS */
+.Collage{
+
+    /* define how much padding you want in between your images */
+    padding:10px;
+
+    }
+
+.Collage img{
+
+    /* ensures padding at the bottom of the image is correct */
+    vertical-align:bottom;
+
+    /* hide the images until the plugin has run. the plugin will reveal the images*/
+    opacity:0;
+
+    }
+</style>
+<body>
+ // example HTML image gallery
+    <div class="Collage"><img src="https://scontent.cdninstagram.com/hphotos-xpf1/t51.2885-15/e15/1517281_353173538189299_1249662813_n.jpg" /><img src="https://scontent.cdninstagram.com/hphotos-xpa1/t51.2885-15/e15/10747886_297428043800115_1880902890_n.jpg" /><img src="https://scontent.cdninstagram.com/hphotos-xfp1/t51.2885-15/e15/10724643_1482611568669233_315625898_n.jpg" width="400" height="120"/>
+    </div>
+
+</body>
+<script type="text/javascript">
+
+
+$(window).load(function () {
+        $('.Collage').collagePlus();
+    });
+
+</script>
+
+</html>

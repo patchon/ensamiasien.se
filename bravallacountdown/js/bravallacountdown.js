@@ -2,7 +2,7 @@
 // "Main"
 
 // Global variables,
-var g_grid_size       = 200;
+var g_grid_size       = 12;
 var g_tags_to_fetch   = ["bråvalla2013", "bråvalla2014", "bråvalla2015", "bråvalla"].sort(function() { return 0.5 - Math.random() });
 var g_verbose         = 1;
 
@@ -172,6 +172,7 @@ function fetch_images_from_insta(tag){
         mock      : 'true',                               // Don't automatically inject received pictures into the dom,
    //     limit     : g_slots_per_tag,                      // Fetch equally amount of images for each tag,
         sortBy    : sort_by,                             // Sort the results randomly
+        resolution : 'standard_resolution',
 
         // Define custom function for when the instafeed success
         success   : function(instafeed_return) {
@@ -179,6 +180,7 @@ function fetch_images_from_insta(tag){
           //var total_images = 0;
           for (var image = 0; image < instafeed_return.data.length; image++) {
             //total_images++;
+            console.log(instafeed_return.data[image]);
             validate_image(instafeed_return.data[image],feed,instafeed_return.data.length,image);
           }
         },
@@ -235,11 +237,11 @@ function add_image_to_grid (image_data,feed,image_created){
     // Add the relevant image information to the free slot,
     $("#caption_"+slot_num).text(image_created);
     //$("#caption_"+slot_num).text(feed.options.tagName);
-    $("#thumb_"+slot_num).attr("src", image_data.images.thumbnail.url);
+    $("#thumb_"+slot_num).attr("src", image_data.images.low_resolution.url);
     $("#thumb_"+slot_num).show();
     $("#spinner_"+slot_num).hide();
     $("#link_"+slot_num).attr("href", image_data.link);
-
+    console.log("FFFFF"+image_data.images.low_resolution.url);
     if (image_data.comments.count === 0){
       $('#comments_'+slot_num).hide();
       $('#comments_'+slot_num).closest('span').css( "margin", "0px" );
