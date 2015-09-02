@@ -13,6 +13,7 @@ body{
   display:none;
 }
 
+
 /* *
  *
  * Head banner and menu
@@ -30,7 +31,7 @@ header {
 
 .main {
   background    : #f2f2e8;
-  padding       : 110px 50px 50px;
+  padding       : 50px 25px 50px;
 }
 
 .main-nav a {
@@ -306,6 +307,10 @@ header,
   padding-right:11px;
   padding-left:11px;
   padding-bottom: 18px;
+}
+
+.row {
+  padding : 11px;
 }
 
 @-webkit-keyframes rotation {

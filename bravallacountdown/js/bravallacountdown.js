@@ -11,34 +11,25 @@ var g_slots_for_tag = new Array();                          // To store the arra
 var g_slots_per_tag = g_grid_size / g_tags_to_fetch.length; // To store the amount of slots per tag
 var g_images_invalid = {};
 
-//var g_tags_to_fetch   = ["bråvalla2015"];
-//var g_slots_per_tag = g_grid_size;
-
 
 
 function setup_page(){
   // Initialize the grid,
   initialize_grid(g_grid_size);
-//
-//  // Randomize the slots,
+
+  // Randomize the slots,
   g_slots_all.sort(function() { return 0.5 - Math.random() });
-//
-//  // Assign the slots to the different tags,
+
+  // Assign the slots to the different tags,
   assign_slots_to_tags();
-//
-//  // Add the invalid images header (for debugging),
+
+  // Add the invalid images header (for debugging),
   add_invalid_images_header();
-//
-//  // Get the images from insta,
-for (var tag = 0; tag < g_tags_to_fetch.length; tag++){
-  fetch_images_from_insta(g_tags_to_fetch[tag]);
-}
-//fetch_images_from_insta("bråvalla2013");
-//fetch_images_from_insta("bråvalla2014");
-//fetch_images_from_insta("bråvalla2015");
-//fetch_images_from_insta("bråvalla");
 
-
+  //  // Get the images from insta,
+  for (var tag = 0; tag < g_tags_to_fetch.length; tag++){
+    fetch_images_from_insta(g_tags_to_fetch[tag]);
+  }
 }
 
 
