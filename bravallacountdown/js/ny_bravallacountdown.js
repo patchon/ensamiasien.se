@@ -2,7 +2,7 @@
 // "Main"
 
 // Global variables,
-var g_grid_size       = 60;
+var g_grid_size       = 20;
 var g_tags_to_fetch   = ["bråvalla2013", "bråvalla2014", "bråvalla2015", "bråvalla"].sort(function() { return 0.5 - Math.random() });
 var g_verbose         = 0;
 
