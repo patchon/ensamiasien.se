@@ -238,7 +238,8 @@ function add_image_to_grid (image_data,feed,image_created){
     $("#caption_"+slot_num).text(image_created);
     //$("#caption_"+slot_num).text(feed.options.tagName);
     $("#thumb_"+slot_num).attr("src", image_data.images.standard_resolution.url);
-    $("#thumb_"+slot_num).attr("title", image_data.id);
+    //$("#thumb_"+slot_num).attr("title", image_data.id);
+    $("#thumb_"+slot_num).attr("title", image_data.caption.text);
     $("#thumb_"+slot_num).show();
     $("#spinner_"+slot_num).hide();
     $("#link_"+slot_num).attr("href", image_data.link);
