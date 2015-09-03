@@ -1,48 +1,69 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>DO IT, JUST DO IT !!</title>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <meta name="viewport" content="width=device-width">
-  <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
-  <script type="text/javascript" src="js/jquery-ui.min.js"></script>
+	<head>
+		<title>Flex layouts demo with freewall</title>
+		<meta content="text/html; charset=utf-8" http-equiv="content-type">
+		<meta name="description" content="Freewall demo for flex layout" />
+		<meta name="keywords" content="javascript, dynamic, grid, layout, jquery plugin, flex layouts"/>
+		<link rel="icon" href="favicon.ico" type="image/x-icon" />
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+		<script type="text/javascript" src="js/freewall.js"></script>
+		<style type="text/css">
+			.free-wall {
+				margin: 15px;
+			}
+			.brick img {
+				margin: 0;
+				display: block;
+			}
+		</style>
+	</head>
+	<body>
+		<div class='header'>
+			<div class="clearfix">
+				<div class="float-left">
+						<h1><a href="http://vnjs.net/www/project/freewall/">Free Wall</a></h1>
+						<div class='target'>Creating dynamic grid layouts.</div>
+				</div>
+			</div>
+		</div>
+		<div id="freewall" class="free-wall"></div>
 
-  <script type="text/javascript" src="js/jquery.collagePlus.js"></script>
 
-</head>
-<style type="text/css">
-* In your CSS */
-.Collage{
-
-    /* define how much padding you want in between your images */
-    padding:10px;
-
-    }
-
-.Collage img{
-
-    /* ensures padding at the bottom of the image is correct */
-    vertical-align:bottom;
-
-    /* hide the images until the plugin has run. the plugin will reveal the images*/
-    opacity:0;
-
-    }
-</style>
-<body>
- // example HTML image gallery
-    <div class="Collage"><img src="https://scontent.cdninstagram.com/hphotos-xpf1/t51.2885-15/e15/1517281_353173538189299_1249662813_n.jpg" /><img src="https://scontent.cdninstagram.com/hphotos-xpa1/t51.2885-15/e15/10747886_297428043800115_1880902890_n.jpg" /><img src="https://scontent.cdninstagram.com/hphotos-xfp1/t51.2885-15/e15/10724643_1482611568669233_315625898_n.jpg" width="400" height="120"/>
-    </div>
-
-</body>
 <script type="text/javascript">
+var insta_url = "https://scontent.cdninstagram.com/hphotos-xfa1/t51.2885-15/s320x320";
+var insta_img = [ "/hphotos-xaf1/t51.2885-15/s320x320/e35/11849812_453925804797923_1037690099_n.jpg",
+"/hphotos-xaf1/t51.2885-15/s320x320/e15/11950732_1045365305481193_1510737660_n.jpg",
+"/hphotos-xaf1/t51.2885-15/s320x320/e15/11856798_1633296190280456_286620066_n.jpg",
+"/hphotos-xfa1/t51.2885-15/s320x320/e35/11850251_1619476061660546_428176707_n.jpg" ]
 
+			var temp = "<div class='brick' style='width:{width}px;'><img src='"+insta_url+"/{index}' width='100%'></div>";
+			var w = 1, h = 1, html = '', limitItem = 49;
+			for (var i = 0; i < insta_img.length; ++i) {
+				w = 1 + 3 * Math.random() << 0;
+        var random_w = Math.floor(Math.random()*(300-150+1)+150);
+        console.log(random_w);
+        html += temp.replace(/\{width\}/g, random_w).replace("{index}", insta_img[i]);
+			}
+			$("#freewall").html(html);
 
-$(window).load(function () {
-        $('.Collage').collagePlus();
-    });
+			var wall = new freewall("#freewall");
+			wall.reset({
+				selector: '.brick',
+				animate: true,
+				cellW: 150,
+				cellH: 'auto',
+				onResize: function() {
+					wall.fitWidth();
+				}
+			});
 
-</script>
+			var images = wall.container.find('.brick');
+			images.find('img').load(function() {
+				wall.fitWidth();
+			});
 
+		</script>
+	</body>
 </html>

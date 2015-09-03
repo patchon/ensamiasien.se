@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>DO IT, JUST DO IT !!</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width">
+
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/ny_bravallacountdown.css">
+
+  <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+  <script type="text/javascript" src="js/jquery-ui.min.js"></script>
+  <script type="text/javascript" src="js/jquery.countdown.js"></script>
+  <script  type="text/javascript"src="js/lodash.min.js"></script>
+  <script type="text/javascript" src="js/instafeed.js"></script>
+
+  <script type="text/javascript" src="js/ny_bravallacountdown.js"></script>
+	<script type="text/javascript" src="js/freewall.js"></script>
+</head>
+
+<body>
+  <header id="banner">
+
+  <div id="counter-box">
+    <div id="counter-box-center">
+      <div class="main-example">
+        <div class="countdown-container" id="main-example"></div>
+          <script type="text/template" id="main-example-template">
+            <div class="time <%= label %>">
+              <span class="count curr top"><%= curr %></span>
+              <span class="count next top"><%= next %></span>
+              <span class="count next bottom"><%= next %></span>
+              <span class="count curr bottom"><%= curr %></span>
+              <span class="label"><%= label.length < 7 ? label : label.substr(0, 3)  %></span>
+            </div>
+          </script>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+    <div id="slideshow">
+      <div>
+        <img src="images/3_2.jpg">
+      </div>
+      <div>
+        <img src="images/3_3.jpg">
+      </div>
+      <div>
+        <img src="images/1.jpg">
+      </div>
+    </div>
+  </header>
+
+<nav class="main-nav">
+  <a href="#">Bråvalla Festival</a>
+  <a href="#">Köp Biljetter</a>
+  <a href="#">Lägg till calender</a>
+  <a href="#">Om sidan</a>
+</nav>
+
+
+
+<div class="main">
+  <div class="container" style="width:100%">
+    <div class="col-xs-12">
+      <div class="well well-sm row">
+        <div class="freewall" id="instafeed"></div>
+      </div>
+    </div>
+  </div>
+  <canvas id="canvas" style="display:none"></canvas>
+</div>
+
+<script type="text/javascript">
+  // Setup the header banner scroller,
+  var   mn = $(".main-nav");
+        mns = "main-nav-scrolled";
+        hdr = $('header').height();
+
+  $(window).scroll(function() {
+    if( $(this).scrollTop() > hdr ) {
+      mn.addClass(mns);
+    } else {
+      mn.removeClass(mns);
+    }
+  });
+
+  // Setup the header banner slider,
+	$(function() {
+		$("#slideshow > div:gt(0)").hide();
+		setInterval(function() {
+		  $('#slideshow > div:first')
+		    .fadeOut(1000)
+		    .next()
+		    .fadeIn(1000)
+		    .end()
+		    .appendTo('#slideshow');
+		},  3000);
+	});
+
+  // Setup the counter,
+  $(window).on('load', function() {
+    var labels = ['veckor', 'dagar', 'timmar', 'minuter', 'sekunder'],
+      start_bravalla = '2016/06/27',
+      template = _.template($('#main-example-template').html()),
+      currDate = '00:00:00:00:00',
+      nextDate = '00:00:00:00:00',
+      parser = /([0-9]{2})/gi,
+      $example = $('#main-example');
+
+    // Parse countdown string to an object
+    function strfobj(str) {
+      var parsed = str.match(parser),
+        obj = {};
+      labels.forEach(function(label, i) {
+        obj[label] = parsed[i]
+      });
+      return obj;
+    }
+
+    // Return the time components that diffs
+    function diff(obj1, obj2) {
+      var diff = [];
+      labels.forEach(function(key) {
+        if (obj1[key] !== obj2[key]) {
+          diff.push(key);
+        }
+      });
+      return diff;
+    }
+
+    // Build the layout
+    var initData = strfobj(currDate);
+    labels.forEach(function(label, i) {
+      $example.append(template({
+        curr: initData[label],
+        next: initData[label],
+        label: label
+      }));
+    });
+
+    // Starts the countdown
+    $example.countdown(start_bravalla, function(event) {
+      var newDate = event.strftime('%w:%d:%H:%M:%S'),
+        data;
+      if (newDate !== nextDate) {
+        currDate = nextDate;
+        nextDate = newDate;
+        // Setup the data
+        data = {
+          'curr': strfobj(currDate),
+          'next': strfobj(nextDate)
+        };
+        // Apply the new values to each node that changed
+        diff(data.curr, data.next).forEach(function(label) {
+          var selector = '.%s'.replace(/%s/, label),
+              $node = $example.find(selector);
+          // Update the node
+          $node.removeClass('flip');
+          $node.find('.curr').text(data.curr[label]);
+          $node.find('.next').text(data.next[label]);
+          // Wait for a repaint to then flip
+          _.delay(function($node) {
+            $node.addClass('flip');
+          }, 50, $node);
+        });
+      }
+    });
+
+  // Initialize the grid and get images from insta,
+  setup_page();
+
+  // Set up the freewall object to make a nice collage,
+	var wall = new freewall("#instafeed");
+	wall.reset({
+		selector: '.brick',
+		animate: true,
+    gutterX: 1,
+    gutterY: 1,
+    cellW: '160',
+    cellH: 'auto',
+		onResize: function() {
+			wall.fitWidth();
+		}
+	});
+
+	var images = wall.container.find('.brick');
+	  images.find('img').load(function() {
+		wall.fitWidth();
+	});
+});
+
+
+
+
+
+
+</script>
+
+
+</body>
+</html>
