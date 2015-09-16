@@ -2,9 +2,9 @@
 // "Main"
 
 // Global variables,
-var g_grid_size       = 20;
+var g_grid_size       = 50;
 var g_tags_to_fetch   = ["bråvalla2013", "bråvalla2014", "bråvalla2015", "bråvalla"].sort(function() { return 0.5 - Math.random() });
-var g_verbose         = 0;
+var g_verbose         =0;
 
 var g_slots_all     = new Array();                          // To store the numbers representing the all slots,
 var g_slots_for_tag = new Array();                          // To store the arrays containing the slots for each tag
@@ -24,7 +24,9 @@ function setup_page(){
   assign_slots_to_tags();
 
   // Add the invalid images header (for debugging),
-  add_invalid_images_header();
+  if (g_verbose) {
+    add_invalid_images_header();
+  }
 
   // Get the images from insta,
   for (var tag = 0; tag < g_tags_to_fetch.length; tag++){
@@ -87,14 +89,25 @@ function initialize_grid(grid_size){
   logger("Constructing a grid of "+grid_size+" thumbnails.");
 
   for (row = 0; row < grid_size; row++) {
-    var w = 1;
+    var w;
     w = 1 + 2 * Math.random() << 0;
+    w = w*140;
 
-    var   thumb  = '<div class="brick" style=\'width:'+w*150+'px;\'>'
+    var size    = Math.random() < 0.5 ? 170 : 350;
+    var height  = 190;
+
+    if (size === 170){
+      height = 350;
+    }
+
+    var   str = 'style="width:'+size+'px; height:'+height+'px; display:none" '
+    var   str_2 = 'style="width:'+size+'px; height:'+height+'px;" '
+
+    var   thumb  = '<div class="brick" '+str+'>'
           thumb += '  <div class="thumbnail text-center scaling">'
           thumb += '    <strong id="caption_'+row+'"></strong>'
           thumb += '    <div class="spinner" id="spinner_'+row+'"/>'
-          thumb += '      <a href="#" id="link_'+row+'" target="_blank">'
+          thumb += '      <a href="#" id="link_'+row+'" target="_blank" >'
           thumb += '        <img id="thumb_'+row+'" src="#" class="fade">'
           thumb += '      </a>'
           thumb += '      <span>'
@@ -173,9 +186,8 @@ function fetch_images_from_insta(tag){
         tagName   : tag,                                  // The actual tag to get,
         clientId  : 'eb01b1b10b72457ea650f74f756bde4a',   // The instadeveloper client id,
         mock      : 'true',                               // Don't automatically inject received pictures into the dom,
-   //     limit     : g_slots_per_tag,                      // Fetch equally amount of images for each tag,
         sortBy    : sort_by,                             // Sort the results randomly
-        resolution : 'standard_resolution',
+        resolution : 'low_resolution',
 
         // Define custom function for when the instafeed success
         success   : function(instafeed_return) {
@@ -236,10 +248,10 @@ function add_image_to_grid (image_data,feed,image_created){
 
     // Add the relevant image information to the free slot,
     $("#caption_"+slot_num).text(image_created);
-    //$("#caption_"+slot_num).text(feed.options.tagName);
-    $("#thumb_"+slot_num).attr("src", image_data.images.standard_resolution.url);
-    //$("#thumb_"+slot_num).attr("title", image_data.id);
-    $("#thumb_"+slot_num).attr("title", image_data.caption.text);
+    $("#caption_"+slot_num).text(feed.options.tagName);
+    $("#thumb_"+slot_num).attr("src", image_data.images.low_resolution.url);
+    $("#thumb_"+slot_num).attr("title", image_data.id);
+    //$("#thumb_"+slot_num).attr("title", image_data.caption.text);
     $("#thumb_"+slot_num).show();
     $("#spinner_"+slot_num).hide();
     $("#link_"+slot_num).attr("href", image_data.link);
@@ -257,6 +269,18 @@ function add_image_to_grid (image_data,feed,image_created){
     }else{
       $('#likes_'+slot_num).after("&nbsp;"+image_data.likes.count);
     }
+    
+    // var progress = $('#progress').css("width");
+    //     console.log("A_1 => "+progress);
+
+    //     progress = progress.replace('px', '');
+    //     progress = parseInt(progress,10);
+    //     //progress = progress.replace('0', '');
+    //     console.log("A_2 => "+progress);
+    //     progress = progress + 2;
+    //     console.log("A_3 => "+progress);
+    //     $('#progress').css("width",progress);
+
 
     // Delete the slot from the tag,
     g_slots_for_tag[feed.options.tagName].splice(0,1);
@@ -325,6 +349,8 @@ var invalid_ids = [ "1054256867027831737_12468441",
                    "1063947637353730022_466711394",
                    "792846076070261474_32253771",
                    "789741244245537382_32253771",
+                   "1065849107248433260_12468441",
+                   "1062958093666780811_1364257208"
                    ];
                   
 
@@ -375,7 +401,10 @@ function validate_image(image_data, feed, feed_length, total_images){
             var err_str  = "Date "+image_created+" it not between the dates '"
                 err_str += date_start+"' and '"+date_end+"'";
             logger(err_str);
-            add_invalidated_image(image_data,feed,"date")
+            
+            if (g_verbose){
+              add_invalidated_image(image_data,feed,"date")
+            }
 
             // If it's the last image of the feed, check so we have filled all
             // slots if not, we try to get more,
@@ -419,7 +448,9 @@ function validate_image(image_data, feed, feed_length, total_images){
       // Image is bad, invalidate it,
       logger('Image'+image_data.images.thumbnail.url+' has a probabilty of white border : '+probably_white_border);
       if (probably_white_border > 1000){
-        add_invalidated_image(image_data,feed,"frame");
+        if (g_verbose){
+          add_invalidated_image(image_data,feed,"frame");
+        }
       }else{
         // Image is all good, add it to the grid
         logger("Validated image "+image_data.images.thumbnail.url+" adding it to grid.");
@@ -448,6 +479,7 @@ function validate_image(image_data, feed, feed_length, total_images){
 // Arguments : instafeed object
 // Returns   : Doesn't really return in that sense.
 //
+var foo = 1;
 function fill_empty_slots(feed){
   // If we still have have available slots call feed.next to get more images,
   logger("in fill empty slots for tag "+feed.options.tagName);
@@ -456,7 +488,16 @@ function fill_empty_slots(feed){
     logger("Still got "+free_slots+" slots for "+feed.options.tagName);
     feed.next();
   }else{
+      console.log("foo"+foo);
+    if (foo === 4){
+      console.log("foo");
+      $('#fet').css("display", "block");
+      $('.brick').css("display", "inline-block");
+      Pace.stop();
+    }
     logger("NO SLOTS LEFT FOR "+feed.options.tagName);
+    
+    foo++;
   }
 }
 
@@ -473,3 +514,6 @@ function logger(text){
     console.log(text);
   }
 }
+
+
+   //     limit     : g_slots_per_tag,                      // Fetch equally amount of images for each tag,

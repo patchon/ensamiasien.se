@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<!--[if lt IE 9]> <html class="no-js weak" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>MasonJS</title>
+
+
+	</head>
+	<body>
+
+  <ul id="tiles">
+
+<li><img src="https://scontent.cdninstagram.com/hphotos-xaf1/t51.2885-15/s320x320/e15/11950732_1045365305481193_1510737660_n.jpg" width="200" height="283"><p>1</p></li>
+        <li><img src="https://scontent.cdninstagram.com/hphotos-xfa1/t51.2885-15/s320x320/e35/11925563_1630354527239371_1549410783_n.jpg" width="200" height="300"><p>2</p></li>
+        <li><img src="https://scontent.cdninstagram.com/hphotos-xfa1/t51.2885-15/s320x320/e35/11265170_710946949010958_1202996892_n.jpg" width="200" height="252"><p>3</p></li>
+        <li><img src="https://scontent.cdninstagram.com/hphotos-xaf1/t51.2885-15/s320x320/e35/11939523_449544958563913_859044653_n.jpg" width="200" height="158"><p>4</p></li>
+        <li><img src="https://scontent.cdninstagram.com/hphotos-xaf1/t51.2885-15/s320x320/e35/11881816_423055437882684_1422354458_n.jpg" width="200" height="300"><p>5</p></li>
+        <li><img src="https://scontent.cdninstagram.com/hphotos-xaf1/t51.2885-15/s320x320/e15/11909124_417578061700105_1573204860_n.jpg" width="200" height="297"><p>6</p></li>
+        <li><img src="https://scontent.cdninstagram.com/hphotos-xfa1/t51.2885-15/s320x320/e35/11363624_596315970510596_450111235_n.jpg" width="200" height="200"><p>7</p></li>
+        <li><img src="https://scontent.cdninstagram.com/hphotos-xfa1/t51.2885-15/s320x320/e35/11910068_756641134446404_1087264177_n.jpg" width="200" height="200"><p>8</p></li>
+  </ul>
+
+    <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="js/wookmark.js"></script>
+
+  <script type="text/javascript">
+
+  var images = ["https://scontent.cdninstagram.com/hphotos-xaf1/t51.2885-15/s320x320/e15/11950732_1045365305481193_1510737660_n.jpg",
+                "https://scontent.cdninstagram.com/hphotos-xfa1/t51.2885-15/s320x320/e35/11925563_1630354527239371_1549410783_n.jpg",
+                "https://scontent.cdninstagram.com/hphotos-xfa1/t51.2885-15/s320x320/e35/11265170_710946949010958_1202996892_n.jpg",
+                "https://scontent.cdninstagram.com/hphotos-xaf1/t51.2885-15/s320x320/e35/11939523_449544958563913_859044653_n.jpg",
+                "https://scontent.cdninstagram.com/hphotos-xaf1/t51.2885-15/s320x320/e35/11881816_423055437882684_1422354458_n.jpg",
+                "https://scontent.cdninstagram.com/hphotos-xaf1/t51.2885-15/s320x320/e35/11849812_453925804797923_1037690099_n.jpg",
+                "https://scontent.cdninstagram.com/hphotos-xfa1/t51.2885-15/s320x320/e35/11421974_1464200663885414_1020465509_n.jpg",
+                "https://scontent.cdninstagram.com/hphotos-xfa1/t51.2885-15/s320x320/e35/11910068_756641134446404_1087264177_n.jpg",
+                "https://scontent.cdninstagram.com/hphotos-xfa1/t51.2885-15/s320x320/e35/11363624_596315970510596_450111235_n.jpg",
+                "https://scontent.cdninstagram.com/hphotos-xaf1/t51.2885-15/s320x320/e15/11909124_417578061700105_1573204860_n.jpg" ];
+
+  //      //var html = "<div class=\"grid-sizer\"></div>";
+  //      var html = "";
+  //      //var temp = "<li><img src='{image}' width='{width}' height='{width}'><p>{i}</p></li>";
+  //      var temp = "<li><img src='{image}' ><p>{i}</p></li>";
+	//		  for (var i = 0; i < images.length; ++i) {
+  //        var width = Math.random() < 0.5 ? 100 : 300;
+  //         //width = Math.floor(Math.random()*(300-100+1)+100);;
+
+	//			  html += temp.replace(/\{width\}/g, width).replace(/\{height\}/g, width).replace(/\{i\}/g, i).replace("{image}", images[i]);
+  //        console.log(html);
+	//		}
+	//		$("#tiles").html(html);
+
+// Call the layout function.
+	$('#tiles li').wookmark({
+		autoResize  : true, // This will auto-update the layout when the browser window is resized.
+		container   : $('#tiles'), // Optional, used for some extra CSS styling
+		offset      : 2, // Optional, the distance between grid items
+		itemWidth   : 210 // Optional, the width of a grid item
+	});
+
+</script>
+
+
+</body>
+</html>
+
+
+

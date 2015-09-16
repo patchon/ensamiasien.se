@@ -6,8 +6,12 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width">
 
+  <script src="js/pace.min.js" data-pace-options='{ "elements": { "selectors": [".f"] }}' ></script>
+
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/ny_bravallacountdown.css">
+ 
+  <link href="css/fet.css" rel="stylesheet" />
 
   <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
   <script type="text/javascript" src="js/jquery-ui.min.js"></script>
@@ -40,8 +44,6 @@
     </div>
   </div>
 
-
-
     <div id="slideshow">
       <div>
         <img src="images/3_2.jpg">
@@ -55,17 +57,17 @@
     </div>
   </header>
 
-<nav class="main-nav">
-  <a href="#">Bråvalla Festival</a>
-  <a href="#">Köp Biljetter</a>
-  <a href="#">Lägg till kalender</a>
-  <a href="#">Om sidan</a>
-</nav>
+  <nav class="main-nav">
+    <a href="#">Bråvalla Festival</a>
+    <a href="#">Köp Biljetter</a>
+    <a href="#">Lägg till kalender</a>
+    <a href="#">Om sidan</a>
+  </nav>
 
 
 
 <div class="main">
-  <div class="container" style="width:100%">
+  <div class="container" style="width:100%; display:none" id="fet">
     <div class="col-xs-12">
       <div class="well well-sm row">
         <div class="freewall" id="instafeed"></div>
@@ -76,6 +78,7 @@
 </div>
 
 <script type="text/javascript">
+  
   // Setup the header banner scroller,
   var   mn = $(".main-nav");
         mns = "main-nav-scrolled";
@@ -178,9 +181,9 @@
 	var wall = new freewall("#instafeed");
 	wall.reset({
 		selector: '.brick',
-		animate: true,
-    gutterX: 1,
-    gutterY: 1,
+		animate: false,
+    gutterX: 10,
+    gutterY: 10,
     cellW: '160',
     cellH: 'auto',
 		onResize: function() {
