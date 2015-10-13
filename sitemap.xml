@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://www.ensamiasien.se//blog/2015/10/13/i-love-the-philippines/</loc>
+    <lastmod>2015-10-13T09:58:16+02:00</lastmod>
+  </url>
+  <url>
     <loc>http://www.ensamiasien.se//blog/2015/10/04/forget-all-you-thought-you-knew-about-diving/</loc>
     <lastmod>2015-10-04T06:13:51+02:00</lastmod>
   </url>
@@ -169,6 +173,18 @@
   </url>
   <url>
     <loc>http://www.ensamiasien.se//blog/categories/paradise/</loc>
+  </url>
+  <url>
+    <loc>http://www.ensamiasien.se//blog/categories/the-philippines/</loc>
+  </url>
+  <url>
+    <loc>http://www.ensamiasien.se//blog/categories/coron/</loc>
+  </url>
+  <url>
+    <loc>http://www.ensamiasien.se//blog/categories/wreck/</loc>
+  </url>
+  <url>
+    <loc>http://www.ensamiasien.se//blog/categories/island/</loc>
   </url>
   <url>
     <loc>http://www.ensamiasien.se//bravallacountdown/c.html</loc>
