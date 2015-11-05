@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://www.ensamiasien.se//blog/2015/11/05/spending-my-birthday-in-anilao-the-posh-way/</loc>
+    <lastmod>2015-11-05T06:03:14+01:00</lastmod>
+  </url>
+  <url>
     <loc>http://www.ensamiasien.se//blog/2015/11/02/apo-reef-simply-stunning/</loc>
     <lastmod>2015-11-02T03:34:30+01:00</lastmod>
   </url>
@@ -217,6 +221,15 @@
   </url>
   <url>
     <loc>http://www.ensamiasien.se//blog/categories/apo-reef/</loc>
+  </url>
+  <url>
+    <loc>http://www.ensamiasien.se//blog/categories/anilao/</loc>
+  </url>
+  <url>
+    <loc>http://www.ensamiasien.se//blog/categories/birthday/</loc>
+  </url>
+  <url>
+    <loc>http://www.ensamiasien.se//blog/categories/ate-guy/</loc>
   </url>
   <url>
     <loc>http://www.ensamiasien.se//bravallacountdown/c.html</loc>
