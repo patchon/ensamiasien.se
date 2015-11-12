@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://www.ensamiasien.se//blog/2015/11/12/manila-an-interesting-city-that-is-often-overlooked/</loc>
+    <lastmod>2015-11-12T03:26:44+01:00</lastmod>
+  </url>
+  <url>
     <loc>http://www.ensamiasien.se//blog/2015/11/05/spending-my-birthday-in-anilao-the-posh-way/</loc>
     <lastmod>2015-11-05T06:03:14+01:00</lastmod>
   </url>
@@ -230,6 +234,15 @@
   </url>
   <url>
     <loc>http://www.ensamiasien.se//blog/categories/ate-guy/</loc>
+  </url>
+  <url>
+    <loc>http://www.ensamiasien.se//blog/categories/manila/</loc>
+  </url>
+  <url>
+    <loc>http://www.ensamiasien.se//blog/categories/chinatown/</loc>
+  </url>
+  <url>
+    <loc>http://www.ensamiasien.se//blog/categories/the-henry-hotel/</loc>
   </url>
   <url>
     <loc>http://www.ensamiasien.se//bravallacountdown/c.html</loc>
